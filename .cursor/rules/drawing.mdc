@@ -7,7 +7,7 @@ alwaysApply: true
 
 Cursor ↔ Aseprite bridge. Draw only through DrawingManager MCP tools (or `run_lua`). Style is **side-on** unless the user asks otherwise.
 
-Canonical plan: [`docs/PLAN.md`](docs/PLAN.md). Pixel craft (канон, RU): [`docs/PIXEL_CRAFT.md`](docs/PIXEL_CRAFT.md). Side-on refs (RU): [`docs/refs/sideon.md`](docs/refs/sideon.md).
+Canonical plan: [`docs/PLAN.md`](docs/PLAN.md). Pixel craft (канон, RU): [`docs/PIXEL_CRAFT.md`](docs/PIXEL_CRAFT.md). Side-on refs (RU): [`docs/refs/sideon.md`](docs/refs/sideon.md). Saint11 GIF cards (FX/materials/anim, CC BY): [`docs/refs/saint11/README.md`](docs/refs/saint11/README.md). Canon stays PIXEL_CRAFT; do not copy tutorial GIFs into `work/`.
 
 ## Session brief (before drawing)
 

@@ -2,6 +2,8 @@
 
 Cursor ↔ Aseprite bridge. The agent draws through MCP tools; Aseprite paints and saves `.aseprite` files under `work/`.
 
+**Для пользователя (заказ в чате, Connect, форма брифа):** [`docs/USAGE.md`](docs/USAGE.md). Пустой шаблон: [`docs/REQUEST_FORM.md`](docs/REQUEST_FORM.md).
+
 **Version 1.0.** Implementation plan: [`docs/PLAN.md`](docs/PLAN.md).
 
 Style is **side-on**. Characters **64–128 px** (default 96×96). Tiles **16 / 32 / 64**. Locations = sky + tilemap + props.

@@ -6,6 +6,7 @@
 
 Открытые статьи (можно читать и цитировать идеи, не копировать иллюстрации авторов в `work/`):
 
+- Карточки по GIF-серии: [`saint11/README.md`](saint11/README.md)
 - [Pedro Medeiros / saint11 — Cluster Sketching](https://saint11.art/pixel_art_articles/article2/)
 - [saint11 — Anti-Alias and Banding](https://saint11.art/pixel_art_articles/article5/)
 - [Lospec — Pixel Art Outlines (skeddles)](https://lospec.com/articles/pixel-art-outlines/)

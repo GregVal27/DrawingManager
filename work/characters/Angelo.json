@@ -1,0 +1,18 @@
+{
+  "kind": "creature",
+  "width": 64,
+  "height": 64,
+  "facing": "right",
+  "complex": true,
+  "palette": "A64",
+  "pass": "skeleton",
+  "tags": [
+    {
+      "name": "still",
+      "from": 1,
+      "to": 1,
+      "ms": 200,
+      "description": "Monk warrior, side-on facing right, standing. Staff planted vertically on the floor at the right of the body (accent). Only the near hand grips the shaft at the waist; the far arm hangs down at the left side, away from the staff. Human head, cloth robes in light bedding tones, wooden staff with golden head. Cloth pieces billow left in the wind: streamers from the staff head, sash from the waist, jagged robe hem. Gaps: staff vs head, cloth vs back, hanging arm vs torso, between legs."
+    }
+  ]
+}

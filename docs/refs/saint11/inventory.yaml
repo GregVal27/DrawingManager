@@ -1,0 +1,559 @@
+# Saint11 pixel tutorial inventory. Source: https://saint11.art/blog/pixel-art-tutorials/
+# License: CC BY 4.0 (Pedro Medeiros). Transcribe principles; do not copy GIFs into work/.
+source: https://saint11.art/blog/pixel-art-tutorials/
+license: CC-BY-4.0
+count: 79
+items:
+  - id: 1-bit
+    url: https://saint11.art/img/pixel-tutorials/1-bit.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#1-bit
+    theme: fundamentals
+    status: transcribed
+    tags: [1-bit, monochrome, black, and, white, one, color]
+    card: cards/fundamentals.md
+  - id: 4LegsWalk
+    url: https://saint11.art/img/pixel-tutorials/4LegsWalk.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#4LegsWalk
+    theme: character-motion
+    status: transcribed
+    tags: [4, legs, quadruped, dog, horse, monster, walk]
+    card: cards/animation-theory.md
+  - id: AttackSheet
+    url: https://saint11.art/img/pixel-tutorials/AttackSheet.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#AttackSheet
+    theme: character-motion
+    status: transcribed
+    tags: [attack, punch, hit, simple]
+    card: cards/attack-combat.md
+  - id: Blood
+    url: https://saint11.art/img/pixel-tutorials/Blood.GIF
+    page: https://saint11.art/blog/pixel-art-tutorials/#Blood
+    theme: vfx
+    status: transcribed
+    tags: [blood, splatter, gore]
+    card: cards/vfx-extra.md
+  - id: Breaking
+    url: https://saint11.art/img/pixel-tutorials/Breaking.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Breaking
+    theme: misc
+    status: transcribed
+    tags: [breaking, destroy, crumble]
+    card: cards/vfx-extra.md
+  - id: Bullets
+    url: https://saint11.art/img/pixel-tutorials/Bullets.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Bullets
+    theme: vfx
+    status: transcribed
+    tags: [bullets, shot, shooting]
+    card: cards/vfx-extra.md
+  - id: characterIdle
+    url: https://saint11.art/img/pixel-tutorials/characterIdle.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#characterIdle
+    theme: character-motion
+    status: transcribed
+    tags: [character, idle, idle, subpixel]
+    card: cards/walk-run-jump.md
+  - id: City
+    url: https://saint11.art/img/pixel-tutorials/City.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#City
+    theme: topdown-ui
+    status: transcribed
+    tags: [city, building, wall]
+    card: cards/environment-tiles.md
+  - id: Clouds
+    url: https://saint11.art/img/pixel-tutorials/CLouds.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Clouds
+    theme: environment
+    status: transcribed
+    tags: [clouds, sky]
+    card: cards/environment-tiles.md
+  - id: Cuteness
+    url: https://saint11.art/img/pixel-tutorials/Cuteness.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Cuteness
+    theme: misc
+    status: transcribed
+    tags: [cute, chibi, kid, child, baby]
+    card: cards/animation-theory.md
+  - id: DarkMagic
+    url: https://saint11.art/img/pixel-tutorials/DarkMagic.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#DarkMagic
+    theme: vfx
+    status: transcribed
+    tags: [dark, magic, magic, powers]
+    card: cards/vfx-extra.md
+  - id: Darkness
+    url: https://saint11.art/img/pixel-tutorials/Darkness.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Darkness
+    theme: fundamentals
+    status: transcribed
+    tags: [darkness, shadows, creepy]
+    card: cards/shading-light.md
+  - id: Death
+    url: https://saint11.art/img/pixel-tutorials/Death.GIF
+    page: https://saint11.art/blog/pixel-art-tutorials/#Death
+    theme: character-motion
+    status: transcribed
+    tags: [death, hit, injury]
+    card: cards/attack-combat.md
+  - id: Defend
+    url: https://saint11.art/img/pixel-tutorials/Defend.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Defend
+    theme: character-motion
+    status: transcribed
+    tags: [defend, hit, deflect, armor]
+    card: cards/attack-combat.md
+  - id: Easings
+    url: https://saint11.art/img/pixel-tutorials/Easings.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Easings
+    theme: fundamentals
+    status: transcribed
+    tags: [easings, animation, theory]
+    card: cards/animation-theory.md
+  - id: Electric
+    url: https://saint11.art/img/pixel-tutorials/Electric.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Electric
+    theme: vfx
+    status: transcribed
+    tags: [electricity, lightning, bolt]
+    card: cards/vfx-fire-smoke-water.md
+  - id: Explosion
+    url: https://saint11.art/img/pixel-tutorials/Explosion.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Explosion
+    theme: vfx
+    status: transcribed
+    tags: [explosion, boom, blast]
+    card: cards/vfx-fire-smoke-water.md
+  - id: Fabric
+    url: https://saint11.art/img/pixel-tutorials/Fabric.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Fabric
+    theme: materials
+    status: transcribed
+    tags: [fabric, clothes]
+    card: cards/materials.md
+  - id: Fire
+    url: https://saint11.art/img/pixel-tutorials/Fire.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Fire
+    theme: vfx
+    status: transcribed
+    tags: [fire, burning]
+    card: cards/vfx-fire-smoke-water.md
+  - id: FirearmDesign
+    url: https://saint11.art/img/pixel-tutorials/FirearmDesign.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#FirearmDesign
+    theme: topdown-ui
+    status: transcribed
+    tags: [firearm, design, gun, equipment]
+    card: cards/props-weapons.md
+  - id: Fundamentals
+    url: https://saint11.art/img/pixel-tutorials/Fundamentals.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Fundamentals
+    theme: fundamentals
+    status: transcribed
+    tags: [fundamentals, 1, theory]
+    card: cards/fundamentals.md
+  - id: Fundamentals2
+    url: https://saint11.art/img/pixel-tutorials/Fundamentals2.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Fundamentals2
+    theme: fundamentals
+    status: transcribed
+    tags: [fundamentals, 2, theory]
+    card: cards/fundamentals.md
+  - id: GD_LevelProgression
+    url: https://saint11.art/img/pixel-tutorials/GD_LevelProgression.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#GD_LevelProgression
+    theme: game-design
+    status: transcribed
+    tags: [game, design, level, progression, level, design]
+    card: cards/game-design.md
+  - id: gems
+    url: https://saint11.art/img/pixel-tutorials/gems.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#gems
+    theme: materials
+    status: transcribed
+    tags: [gems, precious, crystals]
+    card: cards/materials.md
+  - id: Glitch
+    url: https://saint11.art/img/pixel-tutorials/Glitch.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Glitch
+    theme: vfx
+    status: transcribed
+    tags: [glitch, fx, tv, computer]
+    card: cards/vfx-extra.md
+  - id: Goo
+    url: https://saint11.art/img/pixel-tutorials/Goo.GIF
+    page: https://saint11.art/blog/pixel-art-tutorials/#Goo
+    theme: vfx
+    status: transcribed
+    tags: [goo, viscous]
+    card: cards/vfx-extra.md
+  - id: Hazards
+    url: https://saint11.art/img/pixel-tutorials/Hazards.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Hazards
+    theme: props
+    status: transcribed
+    tags: [hazards, danger, traps]
+    card: cards/props-weapons.md
+  - id: Holograms-Ghosts
+    url: https://saint11.art/img/pixel-tutorials/Holograms-Ghosts.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Holograms-Ghosts
+    theme: misc
+    status: transcribed
+    tags: [holograms, ghosts]
+    card: cards/vfx-extra.md
+  - id: Ice
+    url: https://saint11.art/img/pixel-tutorials/Ice.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Ice
+    theme: materials
+    status: transcribed
+    tags: [ice, cold, snow]
+    card: cards/materials.md
+  - id: IlluminationTechniques
+    url: https://saint11.art/img/pixel-tutorials/IlluminationTechniques.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#IlluminationTechniques
+    theme: materials
+    status: transcribed
+    tags: [illumination, lights, volume]
+    card: cards/shading-light.md
+  - id: Impact
+    url: https://saint11.art/img/pixel-tutorials/Impact-export.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Impact
+    theme: topdown-ui
+    status: transcribed
+    tags: [impact, juice, snap]
+    card: cards/vfx-extra.md
+  - id: indoors
+    url: https://saint11.art/img/pixel-tutorials/indoors.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#indoors
+    theme: environment
+    status: transcribed
+    tags: [indoors, house, modern]
+    card: cards/environment-tiles.md
+  - id: Isometric
+    url: https://saint11.art/img/pixel-tutorials/Isometric.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Isometric
+    theme: topdown-ui
+    status: transcribed
+    tags: [isometric, perspective]
+    card: cards/topdown-nondefault.md
+  - id: Jump
+    url: https://saint11.art/img/pixel-tutorials/Jump.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Jump
+    theme: character-motion
+    status: transcribed
+    tags: [jump, character]
+    card: cards/walk-run-jump.md
+  - id: LightMagic
+    url: https://saint11.art/img/pixel-tutorials/LightMagic.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#LightMagic
+    theme: vfx
+    status: transcribed
+    tags: [light, magic, powers, effects]
+    card: cards/vfx-extra.md
+  - id: loop
+    url: https://saint11.art/img/pixel-tutorials/loop.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#loop
+    theme: fundamentals
+    status: transcribed
+    tags: [looping, animation, theory]
+    card: cards/animation-theory.md
+  - id: Metal
+    url: https://saint11.art/img/pixel-tutorials/Metal.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Metal
+    theme: topdown-ui
+    status: transcribed
+    tags: [metal, armor, sword, equipment]
+    card: cards/materials.md
+  - id: Modular
+    url: https://saint11.art/img/pixel-tutorials/Modular.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Modular
+    theme: materials
+    status: transcribed
+    tags: [modular, technique, big]
+    card: cards/fundamentals.md
+  - id: MotionBlur
+    url: https://saint11.art/img/pixel-tutorials/MotionBlur.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#MotionBlur
+    theme: character-motion
+    status: transcribed
+    tags: [motion, blur, slash, attack]
+    card: cards/animation-theory.md
+  - id: Outlines
+    url: https://saint11.art/img/pixel-tutorials/Outlines.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Outlines
+    theme: fundamentals
+    status: transcribed
+    tags: [outlines, lines, contrast]
+    card: cards/shading-light.md
+  - id: Parallax
+    url: https://saint11.art/img/pixel-tutorials/Parallax.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Parallax
+    theme: environment
+    status: transcribed
+    tags: [parallax, backgrounds, theory]
+    card: cards/environment-tiles.md
+  - id: Pipeline
+    url: https://saint11.art/img/pixel-tutorials/Pipeline.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Pipeline
+    theme: fundamentals
+    status: transcribed
+    tags: [pipeline, process, theory]
+    card: cards/fundamentals.md
+  - id: Planning
+    url: https://saint11.art/img/pixel-tutorials/Planning.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Planning
+    theme: fundamentals
+    status: transcribed
+    tags: [planning, process, theory]
+    card: cards/fundamentals.md
+  - id: Portrait
+    url: https://saint11.art/img/pixel-tutorials/Portrait.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Portrait
+    theme: fundamentals
+    status: transcribed
+    tags: [portrait, face, human]
+    card: cards/animation-theory.md
+  - id: Resizing
+    url: https://saint11.art/img/pixel-tutorials/Resizing.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Resizing
+    theme: fundamentals
+    status: transcribed
+    tags: [resizing, rescale]
+    card: cards/animation-theory.md
+  - id: Rock
+    url: https://saint11.art/img/pixel-tutorials/Rock.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Rock
+    theme: materials
+    status: transcribed
+    tags: [rock, stone, minerals]
+    card: cards/materials.md
+  - id: RocketTrail
+    url: https://saint11.art/img/pixel-tutorials/RocketTrail.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#RocketTrail
+    theme: vfx
+    status: transcribed
+    tags: [rocket, trail, spaceship, propulsion]
+    card: cards/vfx-extra.md
+  - id: Ruins
+    url: https://saint11.art/img/pixel-tutorials/Ruins.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Ruins
+    theme: topdown-ui
+    status: transcribed
+    tags: [ruins, old, ancient]
+    card: cards/environment-tiles.md
+  - id: RunCycleSimple
+    url: https://saint11.art/img/pixel-tutorials/RunCycleSimple.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#RunCycleSimple
+    theme: character-motion
+    status: transcribed
+    tags: [run, cycle, animation, simple, human]
+    card: cards/walk-run-jump.md
+  - id: Sand
+    url: https://saint11.art/img/pixel-tutorials/Sand.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Sand
+    theme: materials
+    status: transcribed
+    tags: [sand, desert]
+    card: cards/materials.md
+  - id: Shading
+    url: https://saint11.art/img/pixel-tutorials/Shading.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Shading
+    theme: fundamentals
+    status: transcribed
+    tags: [shading, volume, light, shadow]
+    card: cards/shading-light.md
+  - id: Shine
+    url: https://saint11.art/img/pixel-tutorials/Shine.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Shine
+    theme: fundamentals
+    status: transcribed
+    tags: [shine, effect, simple]
+    card: cards/materials.md
+  - id: Silhouette
+    url: https://saint11.art/img/pixel-tutorials/Silhouette.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Silhouette
+    theme: fundamentals
+    status: transcribed
+    tags: [character, design, silhouette, theory]
+    card: cards/fundamentals.md
+  - id: skull
+    url: https://saint11.art/img/pixel-tutorials/skull.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#skull
+    theme: materials
+    status: transcribed
+    tags: [skull, skeleton, dead, creepy]
+    card: cards/materials.md
+  - id: Slide
+    url: https://saint11.art/img/pixel-tutorials/Slide-Roll.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Slide
+    theme: character-motion
+    status: transcribed
+    tags: [slide, roll, human, movement]
+    card: cards/walk-run-jump.md
+  - id: SmokeSheet
+    url: https://saint11.art/img/pixel-tutorials/SmokeSheet.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#SmokeSheet
+    theme: vfx
+    status: transcribed
+    tags: [smoke, vapor, effect]
+    card: cards/vfx-fire-smoke-water.md
+  - id: Spaceships
+    url: https://saint11.art/img/pixel-tutorials/Spaceships.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Spaceships
+    theme: props
+    status: transcribed
+    tags: [spaceships, future, design]
+    card: cards/props-weapons.md
+  - id: Squash
+    url: https://saint11.art/img/pixel-tutorials/Squash.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Squash
+    theme: fundamentals
+    status: transcribed
+    tags: [squash, and, stretch, animation, theory]
+    card: cards/animation-theory.md
+  - id: Stars
+    url: https://saint11.art/img/pixel-tutorials/Stars.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Stars
+    theme: environment
+    status: transcribed
+    tags: [stars, space, sky]
+    card: cards/environment-tiles.md
+  - id: Subpixel
+    url: https://saint11.art/img/pixel-tutorials/Subpixel.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Subpixel
+    theme: fundamentals
+    status: transcribed
+    tags: [subpixel, advanced, movement, theory, small]
+    card: cards/animation-theory.md
+  - id: Swords
+    url: https://saint11.art/img/pixel-tutorials/Swords.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Swords
+    theme: topdown-ui
+    status: transcribed
+    tags: [swords, weapon, equipment]
+    card: cards/props-weapons.md
+  - id: Tech
+    url: https://saint11.art/img/pixel-tutorials/Tech.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Tech
+    theme: materials
+    status: transcribed
+    tags: [technology, sci-fi]
+    card: cards/materials.md
+  - id: Tiles
+    url: https://saint11.art/img/pixel-tutorials/Tiles.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Tiles
+    theme: environment
+    status: transcribed
+    tags: [tileset, seamless]
+    card: cards/environment-tiles.md
+  - id: Top
+    url: https://saint11.art/img/pixel-tutorials/Top-Down-Houses-Compressed.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Top
+    theme: topdown-ui
+    status: transcribed
+    tags: [top, down, houses, building]
+    card: cards/topdown-nondefault.md
+  - id: TopDownAttack
+    url: https://saint11.art/img/pixel-tutorials/TopDownAttack.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#TopDownAttack
+    theme: topdown-ui
+    status: transcribed
+    tags: [top, down, attack]
+    card: cards/topdown-nondefault.md
+  - id: TopDownRun
+    url: https://saint11.art/img/pixel-tutorials/TopDownRun.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#TopDownRun
+    theme: topdown-ui
+    status: transcribed
+    tags: [top, down, run, cycle, animation, human]
+    card: cards/topdown-nondefault.md
+  - id: TopDownTricks
+    url: https://saint11.art/img/pixel-tutorials/TopDownTricks.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#TopDownTricks
+    theme: topdown-ui
+    status: transcribed
+    tags: [top, down, tricks]
+    card: cards/topdown-nondefault.md
+  - id: TopDownWalkCycle
+    url: https://saint11.art/img/pixel-tutorials/TopDownWalkCycle.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#TopDownWalkCycle
+    theme: topdown-ui
+    status: transcribed
+    tags: [top, down, walk, cycle, animation, human]
+    card: cards/topdown-nondefault.md
+  - id: UI
+    url: https://saint11.art/img/pixel-tutorials/UI-9-Slice.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#UI
+    theme: topdown-ui
+    status: transcribed
+    tags: [ui, 9-Slice]
+    card: cards/ui-9slice.md
+  - id: Vegetation
+    url: https://saint11.art/img/pixel-tutorials/Vegetation.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Vegetation
+    theme: environment
+    status: transcribed
+    tags: [vegetation, trees, nature]
+    card: cards/environment-tiles.md
+  - id: Vegetation2
+    url: https://saint11.art/img/pixel-tutorials/Vegetation2.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Vegetation2
+    theme: environment
+    status: transcribed
+    tags: [vegetation, trees, nature]
+    card: cards/environment-tiles.md
+  - id: Vegetation3
+    url: https://saint11.art/img/pixel-tutorials/Vegetation3.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Vegetation3
+    theme: environment
+    status: transcribed
+    tags: [vegetation, trees, nature]
+    card: cards/environment-tiles.md
+  - id: Walk
+    url: https://saint11.art/img/pixel-tutorials/Walk.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Walk
+    theme: character-motion
+    status: transcribed
+    tags: [walk, cycle, human, animation]
+    card: cards/walk-run-jump.md
+  - id: WallSlide
+    url: https://saint11.art/img/pixel-tutorials/WallSlide.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#WallSlide
+    theme: character-motion
+    status: transcribed
+    tags: [wall, jump, slide, kick]
+    card: cards/walk-run-jump.md
+  - id: Water
+    url: https://saint11.art/img/pixel-tutorials/Water.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Water
+    theme: vfx
+    status: transcribed
+    tags: [water, sea, river, waterfall]
+    card: cards/vfx-fire-smoke-water.md
+  - id: Wind
+    url: https://saint11.art/img/pixel-tutorials/Wind.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Wind
+    theme: vfx
+    status: transcribed
+    tags: [wind, dust, slash]
+    card: cards/vfx-fire-smoke-water.md
+  - id: Wings
+    url: https://saint11.art/img/pixel-tutorials/Wings.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Wings
+    theme: character-motion
+    status: transcribed
+    tags: [wings, birds, fly]
+    card: cards/walk-run-jump.md
+  - id: Wood
+    url: https://saint11.art/img/pixel-tutorials/Wood.gif
+    page: https://saint11.art/blog/pixel-art-tutorials/#Wood
+    theme: materials
+    status: transcribed
+    tags: [wood, tree, nature]
+    card: cards/materials.md
+  - id: Alignment
+    url: https://saint11.art/img/pixel-tutorials/Alignment.png
+    page: https://saint11.art/blog/pixel-art-tutorials/#Alignment
+    theme: fundamentals
+    status: transcribed
+    tags: [banding, alignment]
+    card: cards/fundamentals.md

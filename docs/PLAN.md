@@ -45,7 +45,7 @@ flowchart LR
 
 Язык рисования — не размер холста. На 64–128 персонаж рисуется **1px** линией, цветовыми кластерами, sel-out и щелями в силуэте. Проход 1 (`pose_skeleton`) может быть грубым `volume`. Проход 2 (`paint_creature`) не обводит блобы и не масштабирует кисть через `U()` / `S()`.
 
-Полный канон, алгоритм агента и антипаттерны: [`PIXEL_CRAFT.md`](PIXEL_CRAFT.md). Разбор публичных side-on референсов: [`refs/sideon.md`](refs/sideon.md).
+Полный канон, алгоритм агента и антипаттерны: [`PIXEL_CRAFT.md`](PIXEL_CRAFT.md). Разбор публичных side-on референсов: [`refs/sideon.md`](refs/sideon.md). GIF-гайды saint11 (CC BY, оцифровка): [`refs/saint11/README.md`](refs/saint11/README.md).
 
 ---
 

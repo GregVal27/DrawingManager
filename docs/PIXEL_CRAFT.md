@@ -4,7 +4,7 @@
 
 Проблема грубых спрайтов — не «мало пикселей на холсте». На 64×64 профессиональный side-scroller как раз должен выглядеть плотным. Ломается метод: прямоугольники, сетка 2px и автоматический контур.
 
-Слои, теги, MCP: [`PLAN.md`](PLAN.md). Публичные референсы (вес линии, щели, свет — без чужих ассетов в `work/`): [`refs/sideon.md`](refs/sideon.md). Правила агента: [`.cursor/rules/drawing.mdc`](../.cursor/rules/drawing.mdc).
+Слои, теги, MCP: [`PLAN.md`](PLAN.md). Публичные референсы (вес линии, щели, свет — без чужих ассетов в `work/`): [`refs/sideon.md`](refs/sideon.md). Карточки saint11 (CC BY, GIF-гайды оцифрованы): [`refs/saint11/README.md`](refs/saint11/README.md). Правила агента: [`.cursor/rules/drawing.mdc`](../.cursor/rules/drawing.mdc).
 
 Стиль по умолчанию — **строгий side-on**. Инструменты и слои называем как в коде: `volume`, `line`, `color`, `shade`, `fx`, `draw_pixels`, `pose_skeleton`, `paint_creature`.
 
@@ -137,3 +137,7 @@ AA (1px midtone на длинной лестнице) — по желанию, �
 - Цветов на персонаже мало; тень холоднее базы, блик теплее.
 
 Исходник — `.aseprite` в `work/`, не PNG из `preview/`.
+
+Расширение по темам (огонь, металл, walk, контур, idle/attack timing): карточки [`refs/saint11/cards/`](refs/saint11/cards/) и сводка [`refs/saint11/LEARNINGS.md`](refs/saint11/LEARNINGS.md). Канон этого файла не дублировать.
+
+Дополнительно к тегам, не вместо pass 2: idle — bob 1px и лицо лагает за силуэтом; attack игрока — без замаха, первый кадр уже удар; squash сохраняет массу; металл почти не squash. Не масштабировать готовый спрайт — перерисовать (карточка Resizing). Даль локации тусклее и холоднее переда (Parallax).
