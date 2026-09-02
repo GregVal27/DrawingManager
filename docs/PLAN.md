@@ -2,7 +2,7 @@
 
 Канонический план реализации. Хранится в репозитории (`docs/PLAN.md`), чтобы его было видно на любом ПК после `git clone`.
 
-Мост не переписываем. Наращиваем Lua в [`lua/lib/dm.lua`](../lua/lib/dm.lua), шаблоны в [`lua/templates/`](../lua/templates/), MCP в [`mcp/ops.py`](../mcp/ops.py) + [`mcp/tools/__init__.py`](../mcp/tools/__init__.py), правила в [`.cursor/rules/drawing.mdc`](../.cursor/rules/drawing.mdc). Стиль по умолчанию **side-on**. Канон пикселя (кластеры, 1px, sel-out): [`PIXEL_CRAFT.md`](PIXEL_CRAFT.md). Публичные референсы (вес линии, щели, свет — без чужих ассетов в `work/`): [`refs/sideon.md`](refs/sideon.md). Заказы только в чате Cursor. Aseprite — **live-просмотр**.
+Мост не переписываем. Наращиваем Lua в [`lua/lib/dm.lua`](../lua/lib/dm.lua), шаблоны в [`lua/templates/`](../lua/templates/), MCP в [`mcp/ops.py`](../mcp/ops.py) + [`mcp/tools/__init__.py`](../mcp/tools/__init__.py), правила в [`.cursor/rules/drawing.mdc`](../.cursor/rules/drawing.mdc). Стиль по умолчанию **side-on**. Канон пикселя (кластеры, 1px, sel-out, рампы): [`PIXEL_CRAFT.md`](PIXEL_CRAFT.md). Циклы персонажа (гибрид + запрет limb-slide как сдачи без кисти): [`ANIM_CRAFT.md`](ANIM_CRAFT.md). Очередь craft: [`PLAN_CRAFT_NEXT.md`](PLAN_CRAFT_NEXT.md). Публичные референсы (вес линии, щели, свет — без чужих ассетов в `work/`): [`refs/sideon.md`](refs/sideon.md). Заказы только в чате Cursor. Aseprite — **live-просмотр**.
 
 Aseprite не делает Spine-деформацию: «скелет» = позовый каркас на слоях. После прохода 1 агент **останавливается** и ждёт «ок» / правок в чате.
 
@@ -45,7 +45,7 @@ flowchart LR
 
 Язык рисования — не размер холста. На 64–128 персонаж рисуется **1px** линией, цветовыми кластерами, sel-out и щелями в силуэте. Проход 1 (`pose_skeleton`) может быть грубым `volume`. Проход 2 (`paint_creature`) не обводит блобы и не масштабирует кисть через `U()` / `S()`.
 
-Полный канон, алгоритм агента и антипаттерны: [`PIXEL_CRAFT.md`](PIXEL_CRAFT.md). Разбор публичных side-on референсов: [`refs/sideon.md`](refs/sideon.md). GIF-гайды saint11 (CC BY, оцифровка): [`refs/saint11/README.md`](refs/saint11/README.md).
+Полный канон, алгоритм агента и антипаттерны: [`PIXEL_CRAFT.md`](PIXEL_CRAFT.md). Кадры циклов: [`ANIM_CRAFT.md`](ANIM_CRAFT.md). Очередь craft после hybrid idle: [`PLAN_CRAFT_NEXT.md`](PLAN_CRAFT_NEXT.md). Индекс базы референсов: [`refs/README.md`](refs/README.md). Разбор публичных side-on референсов: [`refs/sideon.md`](refs/sideon.md). Веб-анимации (Pixnote, Lospec): [`refs/web-anim/README.md`](refs/web-anim/README.md). GIF-гайды saint11 (CC BY, оцифровка): [`refs/saint11/README.md`](refs/saint11/README.md). SLYNYRD (пересказ): [`refs/slynyrd/README.md`](refs/slynyrd/README.md).
 
 ---
 
@@ -66,7 +66,7 @@ flowchart LR
 - `pose_skeleton(path, tag?, description?)` — палки + volume.
 - `paint_creature(path, tag?)` — проход 2 после «ок».
 - `add_action(path, name, frames, description, ms?)` — кадры в конец, тег, sidecar.
-- `copy_cels`, `shift_cel`, `clear_cel`
+- `copy_cels`, `shift_cel`, `shift_rect`, `rotate_pixels`, `clear_cel`
 
 **Пропы**
 

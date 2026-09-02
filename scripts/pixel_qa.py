@@ -8,11 +8,15 @@ Flags (see docs / pixel-craft plan):
   - 4-connected outline ratio (comic wrap from outline_from_volume / add_outline)
   - orphan clusters of size 1 (8-connected same color)
   - bounding-box “everything is rectangles”
+  - unique colors in the opaque silhouette + dominant-fill (flat ramp)
+  - --anim: inter-frame flicker (isolated color changes between tag frames)
 
 Usage:
   .\\.venv\\Scripts\\python.exe scripts\\pixel_qa.py path\\to.png
   .\\.venv\\Scripts\\python.exe scripts\\pixel_qa.py path\\to.png --export
   .\\.venv\\Scripts\\python.exe scripts\\pixel_qa.py path\\to.png --json
+  .\\.venv\\Scripts\\python.exe scripts\\pixel_qa.py --anim preview\\idle.gif
+  .\\.venv\\Scripts\\python.exe scripts\\pixel_qa.py --anim f2.png f3.png f4.png f5.png
 """
 
 from __future__ import annotations
@@ -52,6 +56,15 @@ RECT_FILL = 0.95
 RECT_PIXEL_RATIO_FLAG = 0.50
 RECT_MIN_AREA = 4
 RECT_MIN_SIDE = 2
+
+# Unique colors in silhouette (96-class canvas wants a live ramp, not one hex).
+UNIQUE_TOO_FEW_64 = 6
+UNIQUE_TOO_FEW_96 = 12
+UNIQUE_TOO_MANY = 32
+DOMINANT_FILL_FLAG = 0.62
+
+# Isolated pixel-color changes between consecutive frames (severed limb / flicker).
+FLICKER_FLAG = 0.28
 
 
 def luma(p: Pixel) -> float:
@@ -200,6 +213,8 @@ class QaReport:
     rect_pixel_ratio: float
     rect_clusters: int
     sizable_clusters: int
+    unique_colors: int = 0
+    largest_color_share: float = 0.0
     rect_examples: list[RectCluster] = field(default_factory=list)
     flags: list[FlagResult] = field(default_factory=list)
     x1_path: str | None = None
@@ -240,6 +255,9 @@ def _empty_report(path: str, sw: int, sh: int, scale: int, nw: int, nh: int) -> 
         FlagResult("four_connected_outline", False, 0.0, OUTLINE_RATIO_FLAG, "empty"),
         FlagResult("orphans", False, 0.0, float(ORPHAN_ALLOW), "empty"),
         FlagResult("rectangles", False, 0.0, RECT_PIXEL_RATIO_FLAG, "empty"),
+        FlagResult("unique_colors_few", False, 0.0, float(UNIQUE_TOO_FEW_64), "empty"),
+        FlagResult("unique_colors_many", False, 0.0, float(UNIQUE_TOO_MANY), "empty"),
+        FlagResult("dominant_fill", False, 0.0, DOMINANT_FILL_FLAG, "empty"),
     ]
     return report
 
@@ -353,6 +371,19 @@ def analyze_grid(grid: Grid) -> dict:
     rect_pixel_ratio = rect_pixels / n_opaque
     rects.sort(key=lambda r: r.area, reverse=True)
 
+    counts: dict[tuple[int, int, int], int] = {}
+    for x, y in opaque_pts:
+        key = rgb_key(grid[y][x])
+        counts[key] = counts.get(key, 0) + 1
+    unique_colors = len(counts)
+    largest = max(counts.values()) if counts else 0
+    largest_color_share = largest / n_opaque if n_opaque else 0.0
+    min_side = min(w, h)
+    few_thresh = UNIQUE_TOO_FEW_96 if min_side >= 80 else UNIQUE_TOO_FEW_64
+    few_flag = unique_colors < few_thresh
+    many_flag = unique_colors > UNIQUE_TOO_MANY
+    dominant_flag = largest_color_share >= DOMINANT_FILL_FLAG
+
     outline_flag = False
     outline_reasons: list[str] = []
     if four_ratio >= OUTLINE_RATIO_FLAG:
@@ -411,6 +442,36 @@ def analyze_grid(grid: Grid) -> dict:
                 f"({len(rects)}/{len(sizable)} sizable); threshold {RECT_PIXEL_RATIO_FLAG:.2f}"
             ),
         ),
+        FlagResult(
+            key="unique_colors_few",
+            flagged=few_flag,
+            value=float(unique_colors),
+            threshold=float(few_thresh),
+            detail=(
+                f"{unique_colors} unique RGB in silhouette; "
+                f"want >={few_thresh} on {w}x{h} (live ramp, not one hex)"
+            ),
+        ),
+        FlagResult(
+            key="unique_colors_many",
+            flagged=many_flag,
+            value=float(unique_colors),
+            threshold=float(UNIQUE_TOO_MANY),
+            detail=(
+                f"{unique_colors} unique RGB in silhouette; "
+                f"want <={UNIQUE_TOO_MANY} (orphans / noise, not a longer ramp)"
+            ),
+        ),
+        FlagResult(
+            key="dominant_fill",
+            flagged=dominant_flag,
+            value=round(largest_color_share, 4),
+            threshold=DOMINANT_FILL_FLAG,
+            detail=(
+                f"largest color is {largest_color_share:.0%} of opaque "
+                f"(>={DOMINANT_FILL_FLAG:.0%} = flat hide/fill)"
+            ),
+        ),
     ]
 
     return {
@@ -425,6 +486,8 @@ def analyze_grid(grid: Grid) -> dict:
         "rect_pixel_ratio": round(rect_pixel_ratio, 4),
         "rect_clusters": len(rects),
         "sizable_clusters": len(sizable),
+        "unique_colors": unique_colors,
+        "largest_color_share": round(largest_color_share, 4),
         "rect_examples": rects[:8],
         "flags": flags,
     }
@@ -463,6 +526,8 @@ def analyze_png(
             rect_pixel_ratio=float(metrics["rect_pixel_ratio"]),
             rect_clusters=int(metrics["rect_clusters"]),
             sizable_clusters=int(metrics["sizable_clusters"]),
+            unique_colors=int(metrics.get("unique_colors", 0)),
+            largest_color_share=float(metrics.get("largest_color_share", 0.0)),
             rect_examples=list(metrics["rect_examples"]),
             flags=list(metrics["flags"]),
         )
@@ -515,7 +580,8 @@ def format_report(report: QaReport) -> str:
         lines.append(f"         {flag.detail}")
     extra = (
         f"         perimeter={report.perimeter}  outline_ink={report.outline_pixels}  "
-        f"thick={report.thick_outline_ratio}  doubles={report.diagonal_doubles}"
+        f"thick={report.thick_outline_ratio}  doubles={report.diagonal_doubles}  "
+        f"unique={report.unique_colors}  dominant={report.largest_color_share:.0%}"
     )
     lines.append(extra)
     if report.rect_examples:
@@ -537,20 +603,206 @@ def format_report(report: QaReport) -> str:
     return "\n".join(lines)
 
 
+def native_grid(path: Path, scale: int | None = None) -> Grid:
+    _w, _h, source = load_grid(path)
+    detected = detect_nn_scale(source) if scale is None else max(1, int(scale))
+    return downsample(source, detected)
+
+
+def gif_frame_grids(path: Path, scale: int | None = None) -> list[Grid]:
+    im = Image.open(path)
+    frames: list[Grid] = []
+    index = 0
+    while True:
+        frame = im.convert("RGBA")
+        w, h = frame.size
+        px = frame.load()
+        grid: Grid = [[px[x, y] for x in range(w)] for y in range(h)]
+        detected = detect_nn_scale(grid) if scale is None else max(1, int(scale))
+        frames.append(downsample(grid, detected))
+        index += 1
+        try:
+            im.seek(index)
+        except EOFError:
+            break
+    return frames
+
+
+def pair_flicker(a: Grid, b: Grid) -> dict:
+    """Share of changed pixels that sit in size-1 8-connected change clusters."""
+    ha, wa = len(a), (len(a[0]) if a else 0)
+    hb, wb = len(b), (len(b[0]) if b else 0)
+    h, w = min(ha, hb), min(wa, wb)
+    changed: list[Point] = []
+    xor_sil = 0
+    for y in range(h):
+        for x in range(w):
+            oa = is_opaque(a[y][x])
+            ob = is_opaque(b[y][x])
+            if oa != ob:
+                xor_sil += 1
+            if oa or ob:
+                if (not oa) or (not ob) or rgb_key(a[y][x]) != rgb_key(b[y][x]):
+                    changed.append((x, y))
+    n_ch = len(changed)
+    if n_ch == 0:
+        return {
+            "changed": 0,
+            "flicker": 0.0,
+            "isolated": 0,
+            "silhouette_xor": xor_sil,
+        }
+    chset = set(changed)
+    clusters = flood_clusters(
+        w,
+        h,
+        start_ok=lambda x, y: (x, y) in chset,
+        same=lambda _ax, _ay, nx, ny: (nx, ny) in chset,
+        neigh=N8,
+    )
+    isolated = sum(1 for c in clusters if len(c) == 1)
+    return {
+        "changed": n_ch,
+        "flicker": round(isolated / n_ch, 4),
+        "isolated": isolated,
+        "silhouette_xor": xor_sil,
+        "change_clusters": len(clusters),
+    }
+
+
+def collect_anim_grids(inputs: list[Path], scale: int | None = None) -> list[tuple[str, Grid]]:
+    if len(inputs) == 1 and inputs[0].is_dir():
+        files = sorted(
+            p for p in inputs[0].iterdir() if p.suffix.lower() in {".png", ".gif"}
+        )
+        if not files:
+            raise FileNotFoundError(f"no png/gif in {inputs[0]}")
+        return collect_anim_grids(files, scale=scale)
+    out: list[tuple[str, Grid]] = []
+    for path in inputs:
+        if not path.exists():
+            raise FileNotFoundError(str(path))
+        if path.is_dir():
+            out.extend(collect_anim_grids([path], scale=scale))
+            continue
+        suffix = path.suffix.lower()
+        if suffix == ".gif":
+            for i, grid in enumerate(gif_frame_grids(path, scale=scale)):
+                out.append((f"{path}#f{i + 1}", grid))
+        else:
+            out.append((str(path), native_grid(path, scale=scale)))
+    return out
+
+
+def analyze_anim(
+    inputs: list[Path],
+    *,
+    scale: int | None = None,
+) -> dict:
+    labeled = collect_anim_grids(inputs, scale=scale)
+    stills = []
+    keep = (
+        "opaque",
+        "unique_colors",
+        "largest_color_share",
+        "orphans",
+        "orphan_ratio",
+        "rect_pixel_ratio",
+    )
+    for name, grid in labeled:
+        metrics = analyze_grid(grid)
+        row = {"file": name}
+        for k in keep:
+            if k in metrics:
+                row[k] = metrics[k]
+        row["flagged"] = any(f.flagged for f in metrics.get("flags", []))
+        stills.append(row)
+    pairs = []
+    worst = 0.0
+    for i in range(len(labeled) - 1):
+        stats = pair_flicker(labeled[i][1], labeled[i + 1][1])
+        stats["from"] = labeled[i][0]
+        stats["to"] = labeled[i + 1][0]
+        stats["flagged"] = stats["flicker"] >= FLICKER_FLAG and stats["changed"] >= 8
+        pairs.append(stats)
+        if stats["flicker"] > worst:
+            worst = stats["flicker"]
+    seam = None
+    if len(labeled) >= 2:
+        seam = pair_flicker(labeled[-1][1], labeled[0][1])
+        seam["from"] = labeled[-1][0]
+        seam["to"] = labeled[0][0]
+        seam["flagged"] = seam["flicker"] >= FLICKER_FLAG and seam["changed"] >= 8
+        if seam["flicker"] > worst:
+            worst = seam["flicker"]
+    flagged = any(p["flagged"] for p in pairs) or (seam["flagged"] if seam else False)
+    return {
+        "kind": "anim",
+        "frames": len(labeled),
+        "worst_flicker": round(worst, 4),
+        "flicker_threshold": FLICKER_FLAG,
+        "pairs": pairs,
+        "loop_seam": seam,
+        "stills": stills,
+        "flagged": flagged,
+    }
+
+
+def format_anim(report: dict) -> str:
+    lines = [
+        "=== pixel_qa --anim ===",
+        f"frames: {report['frames']}  worst_flicker: {report['worst_flicker']}  "
+        f"threshold: {report['flicker_threshold']}",
+        "",
+    ]
+    for p in report["pairs"]:
+        mark = "FLAG" if p["flagged"] else "ok  "
+        lines.append(
+            f"  [{mark}] {p['from']} -> {p['to']}  "
+            f"flicker={p['flicker']}  changed={p['changed']}  "
+            f"isolated={p['isolated']}  sil_xor={p['silhouette_xor']}"
+        )
+    if report.get("loop_seam"):
+        s = report["loop_seam"]
+        mark = "FLAG" if s["flagged"] else "ok  "
+        lines.append(
+            f"  [{mark}] loop seam {s['from']} -> {s['to']}  "
+            f"flicker={s['flicker']}  changed={s['changed']}"
+        )
+    lines.append("")
+    n_still_flag = sum(1 for s in report["stills"] if s.get("flagged"))
+    lines.append(f"still flags in {n_still_flag}/{len(report['stills'])} frames")
+    lines.append("RESULT: FAIL" if report["flagged"] else "RESULT: PASS")
+    return "\n".join(lines)
+
+
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p = argparse.ArgumentParser(
         description=(
             "QA a pixel-art PNG preview: 4-connected outline wrap, "
-            "orphan 1px clusters, rectangle bounding-box heuristic."
+            "orphan 1px clusters, rectangle bounding-box heuristic, "
+            "unique silhouette colors; --anim for tag flicker."
         ),
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=(
             "examples:\n"
             "  .\\.venv\\Scripts\\python.exe scripts\\pixel_qa.py preview\\foo.png\n"
             "  .\\.venv\\Scripts\\python.exe scripts\\pixel_qa.py preview\\foo.png --export\n"
+            "  .\\.venv\\Scripts\\python.exe scripts\\pixel_qa.py --anim preview\\idle.gif\n"
+            "  .\\.venv\\Scripts\\python.exe scripts\\pixel_qa.py --anim f2.png f3.png f4.png\n"
         ),
     )
-    p.add_argument("png", type=Path, help="Preview PNG (native or nearest-neighbor scaled)")
+    p.add_argument(
+        "inputs",
+        nargs="+",
+        type=Path,
+        help="Preview PNG, or with --anim a GIF / directory / frame list",
+    )
+    p.add_argument(
+        "--anim",
+        action="store_true",
+        help="Compare consecutive frames (GIF, directory, or listed PNGs)",
+    )
     p.add_argument(
         "--scale",
         type=int,
@@ -574,7 +826,19 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
-    path: Path = args.png
+    if args.anim:
+        try:
+            report = analyze_anim(list(args.inputs), scale=args.scale)
+        except (OSError, FileNotFoundError) as exc:
+            print(f"pixel_qa: cannot read anim: {exc}", file=sys.stderr)
+            return 2
+        if args.json:
+            print(json.dumps(report, indent=2))
+        else:
+            print(format_anim(report))
+        return 1 if report["flagged"] else 0
+
+    path: Path = args.inputs[0]
     if not path.is_file():
         print(f"pixel_qa: file not found: {path}", file=sys.stderr)
         return 2

@@ -68,7 +68,7 @@ def create_sprite(
     dest = resolve_work_path(path)
     dest.parent.mkdir(parents=True, exist_ok=True)
     body = f"""
-DM.create({int(width)}, {int(height)}, {lua_value(color_mode)})
+DM.create({int(width)}, {int(height)}, {lua_value(color_mode)}, {lua_value(posix(dest))})
 DM.save({lua_value(posix(dest))})
 DM.result(DM.info())
 """
@@ -147,7 +147,7 @@ def create_character_template(path: str, width: int = 96, height: int = 96) -> d
     dest = resolve_work_path(path)
     dest.parent.mkdir(parents=True, exist_ok=True)
     body = f"""
-DM.create({int(width)}, {int(height)}, "rgb")
+DM.create({int(width)}, {int(height)}, "rgb", {lua_value(posix(dest))})
 local info = DM.create_character_template({int(width)}, {int(height)})
 DM.save({lua_value(posix(dest))})
 DM.result(info)
@@ -448,7 +448,7 @@ def create_character_rig(
     dest.parent.mkdir(parents=True, exist_ok=True)
     face = "left" if str(facing).lower() == "left" else "right"
     body = f"""
-DM.create({int(width)}, {int(height)}, "rgb")
+DM.create({int(width)}, {int(height)}, "rgb", {lua_value(posix(dest))})
 DM.create_character_template({int(width)}, {int(height)})
 dofile({lua_value(_template("character.lua"))})
 paint_humanoid({lua_value(face)})
@@ -480,7 +480,7 @@ def create_tileset(
     paint = "DM.paint_autotile" if autotile else "DM.paint_ground_tiles"
     extra_args = f"({tile_size}, {lua_value(theme)})" if autotile else "()"
     body = f"""
-DM.create({w}, {h}, "rgb")
+DM.create({w}, {h}, "rgb", {lua_value(posix(dest))})
 DM.ensure_tilemap({tile_size}, {max(ntiles, columns * rows)})
 {paint}{extra_args}
 local i = 1
@@ -551,7 +551,7 @@ def assemble_location(
     if tileset_path:
         extra = f"-- tileset reference {lua_value(posix(resolve_work_path(tileset_path)))}\n"
     body = f"""
-DM.create({w}, {h}, "rgb")
+DM.create({w}, {h}, "rgb", {lua_value(posix(dest))})
 {_palette_ops(palette)}
 {extra}DM.assemble_location_scaffold({tile_size}, {lua_value(theme)})
 DM.save({lua_value(posix(dest))})
@@ -660,6 +660,40 @@ def shift_cel(path: str, layer: str, frame: int, dx: int, dy: int) -> dict:
     )
 
 
+def shift_rect(
+    path: str,
+    layer: str,
+    frame: int,
+    x: int,
+    y: int,
+    w: int,
+    h: int,
+    dx: int,
+    dy: int,
+) -> dict:
+    return open_save(
+        resolve_work_path(path),
+        f"DM.shift_rect({lua_value(layer)}, {int(frame)}, {int(x)}, {int(y)}, {int(w)}, {int(h)}, {int(dx)}, {int(dy)})",
+        "DM: shift_rect",
+    )
+
+
+def rotate_pixels(
+    path: str,
+    layer: str,
+    frame: int,
+    cx: float,
+    cy: float,
+    angle_deg: float,
+    radius: float,
+) -> dict:
+    return open_save(
+        resolve_work_path(path),
+        f"DM.rotate_pixels({lua_value(layer)}, {int(frame)}, {float(cx)}, {float(cy)}, {float(angle_deg)}, {float(radius)})",
+        "DM: rotate_pixels",
+    )
+
+
 def clear_cel(path: str, layer: str, frame: int) -> dict:
     return open_save(
         resolve_work_path(path),
@@ -722,7 +756,7 @@ def create_creature(
     tag_list = _normalize_tags(tags)
     pal = _palette_ops(palette or "EDG32")
     body = f"""
-DM.create({int(width)}, {int(height)}, "rgb")
+DM.create({int(width)}, {int(height)}, "rgb", {lua_value(posix(dest))})
 {pal}DM.create_creature_template({int(width)}, {int(height)}, {lua_value(bool(complex))}, {lua_value(tag_list)})
 DM.save({lua_value(posix(dest))})
 DM.result(DM.info())
@@ -855,7 +889,7 @@ def create_prop(
     with_skel = "true" if kind in ("flag", "banner", "fire") else "false"
     pal = _palette_ops(palette) if palette else ""
     body = f"""
-DM.create({int(dw)}, {int(dh)}, "rgb")
+DM.create({int(dw)}, {int(dh)}, "rgb", {lua_value(posix(dest))})
 {pal}DM.create_prop_template({frames}, {with_skel})
 dofile({lua_value(_template("prop.lua"))})
 paint_prop({lua_value(kind)}, {lua_value(motion)})

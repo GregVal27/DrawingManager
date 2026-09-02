@@ -377,6 +377,34 @@ def register(mcp: FastMCP) -> None:
         return ops.shift_cel(path, layer, frame, dx, dy)
 
     @mcp.tool()
+    def shift_rect(
+        path: str,
+        layer: str,
+        frame: int,
+        x: int,
+        y: int,
+        w: int,
+        h: int,
+        dx: int,
+        dy: int,
+    ) -> dict[str, Any]:
+        """Cut pixels in a rect and paste at +dx,+dy. Clip to sprite. Planted hooves stay if omitted from the rect."""
+        return ops.shift_rect(path, layer, frame, x, y, w, h, dx, dy)
+
+    @mcp.tool()
+    def rotate_pixels(
+        path: str,
+        layer: str,
+        frame: int,
+        cx: float,
+        cy: float,
+        angle_deg: float,
+        radius: float,
+    ) -> dict[str, Any]:
+        """Nearest-neighbor rotate of opaque pixels inside a disk around (cx, cy). Small angles. Not bilinear; not the whole canvas."""
+        return ops.rotate_pixels(path, layer, frame, cx, cy, angle_deg, radius)
+
+    @mcp.tool()
     def clear_cel(path: str, layer: str, frame: int) -> dict[str, Any]:
         """Clear one cel (redraw motion)."""
         return ops.clear_cel(path, layer, frame)

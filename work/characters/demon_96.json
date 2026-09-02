@@ -1,0 +1,84 @@
+{
+  "kind": "creature",
+  "width": 96,
+  "height": 96,
+  "facing": "right",
+  "complex": true,
+  "palette": "EDG32",
+  "pass": "paint",
+  "accent": "hump + horns",
+  "materials": "burgundy hide, keratin horns/hooves, rare stone cracks",
+  "local_palettes": {
+    "hide": ["#3e2731", "#733e39", "#a22633", "#be4a2f", "#e43b44"],
+    "hide_bounce": ["#68386c", "#b55088", "#5a6988"],
+    "horn": ["#3e2731", "#733e39", "#c28569", "#d77643", "#ead4aa"],
+    "hoof": ["#3e2731", "#733e39", "#c28569", "#ead4aa", "#8b9bb4"],
+    "maw": ["#181425", "#f6757a", "#c28569", "#ead4aa"],
+    "eye": ["#181425", "#733e39", "#c0cbdc"]
+  },
+  "tags": [
+    {
+      "name": "still",
+      "from": 1,
+      "to": 1,
+      "ms": 200,
+      "description": "Beast demon, not human. Side-on facing right. Hunched arched back (hump accent). Goat digitigrade legs, weight on the near/front hoof. Head dropped forward: horns + muzzle + maw, no pretty face. Near arm lower and righter. Far limbs shorter and darker. Tail back-down."
+    },
+    {
+      "name": "idle",
+      "from": 2,
+      "to": 5,
+      "ms": 200,
+      "description": "Гибрид: copy still → горб/грудь bob, челюсть лагает, хвост shift+rotate, рога ±°, копыта plant, кисть швов. Не blink-only."
+    },
+    {
+      "name": "walk",
+      "from": 6,
+      "to": 13,
+      "ms": 100,
+      "description": "Копыта contact → down → passing → up; горб качается; руки против ног; дальние ноги темнее"
+    },
+    {
+      "name": "run",
+      "from": 14,
+      "to": 21,
+      "ms": 80,
+      "description": "Фаза обе ноги в воздухе; горб сильнее; не ускоренная ходьба"
+    },
+    {
+      "name": "attack",
+      "from": 22,
+      "to": 27,
+      "ms": 90,
+      "description": "Без длинного замаха: кадр 1 уже удар когтями/рогами вправо, overshoot корпуса, recover длиннее"
+    },
+    {
+      "name": "jump",
+      "from": 28,
+      "to": 30,
+      "ms": 80,
+      "description": "Anticipation короткий, invert на пике"
+    },
+    {
+      "name": "fall",
+      "from": 31,
+      "to": 33,
+      "ms": 100,
+      "description": "Голова вниз, хвост вверх"
+    },
+    {
+      "name": "hurt",
+      "from": 34,
+      "to": 37,
+      "ms": 100,
+      "description": "Кадр 1 — сильный отлёт, дальше медленный recover"
+    },
+    {
+      "name": "die",
+      "from": 38,
+      "to": 43,
+      "ms": 120,
+      "description": "Тот же сильный удар, recover обрывается, оседает на копыта и горб"
+    }
+  ]
+}

@@ -114,19 +114,89 @@ function DM.sprite()
   return s
 end
 
-function DM.create(width, height, color_mode)
+local function path_key(path)
+  if not path or path == "" then
+    return ""
+  end
+  local p = tostring(path)
+  if app.fs and app.fs.normalizePath then
+    p = app.fs.normalizePath(p)
+  end
+  p = p:gsub("\\", "/"):gsub("/+", "/")
+  return p:lower()
+end
+
+function DM.find_open(path)
+  local want = path_key(path)
+  if want == "" then
+    return nil
+  end
+  for _, s in ipairs(app.sprites) do
+    if s.filename and s.filename ~= "" and path_key(s.filename) == want then
+      return s
+    end
+  end
+  return nil
+end
+
+function DM.close_path(path)
+  for _ = 1, 32 do
+    local s = DM.find_open(path)
+    if not s then
+      return
+    end
+    pcall(function()
+      if s.filename and s.filename ~= "" then
+        s:saveAs(s.filename)
+      elseif path and path ~= "" then
+        s:saveAs(path)
+      end
+    end)
+    local ok = pcall(function()
+      s:close()
+    end)
+    if not ok then
+      return
+    end
+  end
+end
+
+function DM.create(width, height, color_mode, path)
+  if path and path ~= "" then
+    DM.close_path(path)
+  end
   local s = Sprite(width, height, color_mode_from(color_mode))
   app.activeSprite = s
   return s
 end
 
 function DM.open(path)
+  local existing = DM.find_open(path)
+  if existing then
+    app.activeSprite = existing
+    if app.refresh then
+      app.refresh()
+    end
+    return existing
+  end
   local s = app.open(path)
   if not s then
     DM.fail("failed to open: " .. tostring(path))
   end
   app.activeSprite = s
   return s
+end
+
+function DM.open_ref(path)
+  local existing = DM.find_open(path)
+  if existing then
+    return existing, false
+  end
+  local s = app.open(path)
+  if not s then
+    DM.fail("failed to open: " .. tostring(path))
+  end
+  return s, true
 end
 
 function DM.save(path)
@@ -1014,10 +1084,7 @@ end
 
 function DM.copy_palette_from(src_path)
   local dest = DM.sprite()
-  local src = app.open(src_path)
-  if not src then
-    DM.fail("failed to open palette sprite: " .. tostring(src_path))
-  end
+  local src, owned = DM.open_ref(src_path)
   dest:setPalette(src.palettes[1])
   local hexes = {}
   local pal = src.palettes[1]
@@ -1025,7 +1092,9 @@ function DM.copy_palette_from(src_path)
     local c = pal:getColor(i)
     hexes[#hexes + 1] = string.format("#%02x%02x%02x", c.red, c.green, c.blue)
   end
-  src:close()
+  if owned then
+    src:close()
+  end
   app.activeSprite = dest
   return { ok = true, size = #hexes, colors = hexes }
 end
@@ -1069,6 +1138,134 @@ function DM.shift_cel(layer_name, frame, dx, dy)
   cel.image = moved
   cel.position = Point(0, 0)
   return { ok = true, layer = layer_name, frame = frame, dx = dx, dy = dy }
+end
+
+-- Cut pixels in a sprite-space rect and paste at +dx,+dy. Clip to canvas.
+-- Whole-layer nudge remains shift_cel.
+function DM.shift_rect(layer_name, frame, x, y, w, h, dx, dy)
+  DM.use(layer_name, frame)
+  local img = DM.canvas()
+  local s = DM.sprite()
+  local sw, sh = s.width, s.height
+  x = math.floor(tonumber(x) or 0)
+  y = math.floor(tonumber(y) or 0)
+  w = math.floor(tonumber(w) or 0)
+  h = math.floor(tonumber(h) or 0)
+  dx = math.floor(tonumber(dx) or 0)
+  dy = math.floor(tonumber(dy) or 0)
+  if w <= 0 or h <= 0 or (dx == 0 and dy == 0) then
+    return { ok = true, layer = layer_name, frame = frame, dx = dx, dy = dy, moved = 0 }
+  end
+  local x1 = math.max(0, x)
+  local y1 = math.max(0, y)
+  local x2 = math.min(sw, x + w)
+  local y2 = math.min(sh, y + h)
+  if x1 >= x2 or y1 >= y2 then
+    return { ok = true, layer = layer_name, frame = frame, dx = dx, dy = dy, moved = 0 }
+  end
+  local saved = {}
+  for py = y1, y2 - 1 do
+    for px = x1, x2 - 1 do
+      saved[#saved + 1] = { px, py, img:getPixel(px, py) }
+    end
+  end
+  local clear = transparent_color()
+  for py = y1, y2 - 1 do
+    for px = x1, x2 - 1 do
+      img:putPixel(px, py, clear)
+    end
+  end
+  local moved = 0
+  for i = 1, #saved do
+    local rec = saved[i]
+    local nx, ny = rec[1] + dx, rec[2] + dy
+    if nx >= 0 and ny >= 0 and nx < sw and ny < sh then
+      img:putPixel(nx, ny, rec[3])
+      moved = moved + 1
+    end
+  end
+  return { ok = true, layer = layer_name, frame = frame, dx = dx, dy = dy, moved = moved }
+end
+
+local function nn_round(v)
+  if v >= 0 then
+    return math.floor(v + 0.5)
+  end
+  return math.ceil(v - 0.5)
+end
+
+-- Nearest-neighbor rotate of opaque pixels inside a disk. Inverse mapping.
+-- Does not bilinear-filter and does not rotate the whole canvas.
+function DM.rotate_pixels(layer_name, frame, cx, cy, angle_deg, radius)
+  DM.use(layer_name, frame)
+  local img = DM.canvas()
+  local s = DM.sprite()
+  local sw, sh = s.width, s.height
+  cx = tonumber(cx) or 0
+  cy = tonumber(cy) or 0
+  local deg = tonumber(angle_deg) or 0
+  radius = tonumber(radius) or 0
+  if radius <= 0 or deg == 0 then
+    return { ok = true, layer = layer_name, frame = frame, angle = deg, radius = radius, rotated = 0 }
+  end
+  local ang = math.rad(deg)
+  local cos_a = math.cos(ang)
+  local sin_a = math.sin(ang)
+  local r2 = radius * radius
+  local xmin = math.max(0, math.floor(cx - radius))
+  local ymin = math.max(0, math.floor(cy - radius))
+  local xmax = math.min(sw - 1, math.ceil(cx + radius))
+  local ymax = math.min(sh - 1, math.ceil(cy + radius))
+  local src = {}
+  for py = ymin, ymax do
+    local row = {}
+    for px = xmin, xmax do
+      row[px] = img:getPixel(px, py)
+    end
+    src[py] = row
+  end
+  local clear = transparent_color()
+  for py = ymin, ymax do
+    for px = xmin, xmax do
+      local ddx = px - cx
+      local ddy = py - cy
+      if ddx * ddx + ddy * ddy <= r2 then
+        if Color(src[py][px]).alpha > 0 then
+          img:putPixel(px, py, clear)
+        end
+      end
+    end
+  end
+  local rotated = 0
+  for py = ymin, ymax do
+    for px = xmin, xmax do
+      local ddx = px - cx
+      local ddy = py - cy
+      if ddx * ddx + ddy * ddy <= r2 then
+        local sx = nn_round(cx + ddx * cos_a + ddy * sin_a)
+        local sy = nn_round(cy - ddx * sin_a + ddy * cos_a)
+        if sx >= xmin and sy >= ymin and sx <= xmax and sy <= ymax then
+          local sdx = sx - cx
+          local sdy = sy - cy
+          if sdx * sdx + sdy * sdy <= r2 then
+            local pix = src[sy][sx]
+            if Color(pix).alpha > 0 then
+              img:putPixel(px, py, pix)
+              rotated = rotated + 1
+            end
+          end
+        end
+      end
+    end
+  end
+  return {
+    ok = true,
+    layer = layer_name,
+    frame = frame,
+    angle = deg,
+    radius = radius,
+    rotated = rotated,
+  }
 end
 
 function DM.clear_cel(layer_name, frame)
@@ -1681,10 +1878,7 @@ end
 
 function DM.stamp_sprite(src_path, dest_layer, x, y, src_frame)
   local dest = DM.sprite()
-  local src = app.open(src_path)
-  if not src then
-    DM.fail("failed to open stamp: " .. tostring(src_path))
-  end
+  local src, owned = DM.open_ref(src_path)
   src_frame = tonumber(src_frame) or 1
   local flat = Image(src.spec)
   flat:clear()
@@ -1704,7 +1898,9 @@ function DM.stamp_sprite(src_path, dest_layer, x, y, src_frame)
     end
   end
   walk(src.layers)
-  src:close()
+  if owned then
+    src:close()
+  end
   app.activeSprite = dest
   DM.use(dest_layer, 1)
   local canvas = DM.canvas()
@@ -1742,14 +1938,7 @@ function DM.onion_composite(path, frame, prev_n, next_n, opacity)
   local function flattened(fn)
     local img = Image(s.spec)
     img:clear()
-    for _, layer in ipairs(s.layers) do
-      if layer.isImage and layer.isVisible then
-        local cel = layer:cel(fn)
-        if cel then
-          img:drawImage(cel.image, cel.position)
-        end
-      end
-    end
+    img:drawSprite(s, fn)
     return img
   end
 

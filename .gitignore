@@ -5,6 +5,9 @@ Aseprite/
 preview/*
 !preview/.gitkeep
 
+# Optional AI / study refs (never copy into work/)
+_ref-cache/
+
 # Python
 .venv/
 __pycache__/

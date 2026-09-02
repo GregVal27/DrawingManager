@@ -40,6 +40,8 @@ Creatures are two-pass: `pose_skeleton` → user «ок» in chat → `paint_cre
 ## Layout
 
 - `docs/PLAN.md` — 1.0 plan
+- `docs/PIXEL_CRAFT.md` — still / ramps / sel-out
+- `docs/ANIM_CRAFT.md` — character cycles (no limb-slide)
 - `mcp/` — FastMCP server
 - `lua/lib/dm.lua` — primitives
 - `lua/templates/` — creature / character / nature / prop

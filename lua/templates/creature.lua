@@ -1,6 +1,9 @@
 -- Two-pass side-on creature: pose_humanoid_skeleton then paint_creature.
--- Pass 1 (volume) may stay chunky via U()/S(). Pass 2 is 1px form inventory + selout;
--- it does not trace volume or call outline_from_volume.
+-- Pass 1 (volume) may stay chunky via U()/S() and may move bones per frame.
+-- Pass 2 redraws line/color/shade/fx every frame from the pose inventory
+-- (clear_cel + paint). Do not copy_cels+shift a still as the finished cycle —
+-- see docs/ANIM_CRAFT.md. This paint is a 1px draft; replace with
+-- character-specific clusters (demon_96_paint.lua) for 96+ ramps.
 
 local INK = "#181425"
 local BONE = "#e43b44"
@@ -193,6 +196,8 @@ local function pose_at(list, i, n)
 end
 
 local function pose_for_tag(tag_name, i, n)
+  -- Skeleton/volume may interpolate. Paint must still rebuild clusters
+  -- (paint_creature clears cels). Not a blit of frame 1.
   return pose_at(TAG_POSES[tag_name] or idle, i, n)
 end
 

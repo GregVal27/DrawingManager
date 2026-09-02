@@ -5,7 +5,7 @@
 
 Канон DrawingManager не заменяется: [`docs/PIXEL_CRAFT.md`](../../PIXEL_CRAFT.md). Эти карточки — расширение (материалы, VFX, анимация). Top-down / isometric / UI — не дефолт (у нас **side-on**).
 
-Индекс: [`inventory.yaml`](inventory.yaml) (79 уникальных `id`; у двух UI-гайдов один `id=UI`). Таблица: [`INDEX.md`](INDEX.md). Карточки: [`cards/`](cards/). Сводка: [`LEARNINGS.md`](LEARNINGS.md).
+Индекс: [`inventory.yaml`](inventory.yaml) (79 уникальных `id`; у двух UI-гайдов один `id=UI`). Таблица: [`INDEX.md`](INDEX.md). Карточки: [`cards/`](cards/). Сводка: [`LEARNINGS.md`](LEARNINGS.md). Веб-галереи (Pixnote/Lospec): [`../web-anim/README.md`](../web-anim/README.md).
 
 ## Как агент пользуется этим
 

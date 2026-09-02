@@ -7,7 +7,7 @@ alwaysApply: true
 
 Cursor ↔ Aseprite bridge. Draw only through DrawingManager MCP tools (or `run_lua`). Style is **side-on** unless the user asks otherwise.
 
-Canonical plan: [`docs/PLAN.md`](docs/PLAN.md). Pixel craft (канон, RU): [`docs/PIXEL_CRAFT.md`](docs/PIXEL_CRAFT.md). Side-on refs (RU): [`docs/refs/sideon.md`](docs/refs/sideon.md). Saint11 GIF cards (FX/materials/anim, CC BY): [`docs/refs/saint11/README.md`](docs/refs/saint11/README.md). Canon stays PIXEL_CRAFT; do not copy tutorial GIFs into `work/`.
+Canonical plan: [`docs/PLAN.md`](docs/PLAN.md). Pixel craft (канон, RU): [`docs/PIXEL_CRAFT.md`](docs/PIXEL_CRAFT.md). Animation craft (гибрид + запрет limb-slide = сдача без кисти): [`docs/ANIM_CRAFT.md`](docs/ANIM_CRAFT.md), [`docs/refs/craft/hybrid-anim.md`](docs/refs/craft/hybrid-anim.md). Ref index: [`docs/refs/README.md`](docs/refs/README.md). Before a character tag, also open [`docs/refs/web-anim/README.md`](docs/refs/web-anim/README.md) (gallery axes, not pins in `work/`). Side-on refs (RU): [`docs/refs/sideon.md`](docs/refs/sideon.md). Saint11 GIF cards (FX/materials/anim, CC BY): [`docs/refs/saint11/README.md`](docs/refs/saint11/README.md). SLYNYRD paraphrase: [`docs/refs/slynyrd/README.md`](docs/refs/slynyrd/README.md). Canon stays PIXEL_CRAFT + ANIM_CRAFT; do not copy tutorial GIFs into `work/`.
 
 ## Session brief (before drawing)
 
@@ -30,15 +30,19 @@ Requests live in this Cursor chat, not Aseprite UI.
 2. `pose_skeleton` (sticks + volume). **Stop.** Wait for «ок» or pose notes.
 3. `paint_creature` (line / color / shade / fx). Hide skeleton; do not delete it.
 
-Pass 2 follows [`docs/PIXEL_CRAFT.md`](docs/PIXEL_CRAFT.md): form inventory → silhouette lock (1px, holes) → local palettes → cluster paint → form light (top-left) → sel-out → short inner lines → polish doubles/jaggies/orphans → read at 100%.
+Pass 2 follows [`docs/PIXEL_CRAFT.md`](docs/PIXEL_CRAFT.md): form inventory → silhouette lock (1px, holes) → local palettes (sidecar) → cluster paint → form light (top-left) → wear (chip/crack) → sel-out → short inner lines → polish doubles/jaggies/orphans → read at 100%.
+
+Before any multi-frame tag, open [`docs/ANIM_CRAFT.md`](docs/ANIM_CRAFT.md), [`docs/refs/craft/hybrid-anim.md`](docs/refs/craft/hybrid-anim.md), and gallery axes [`docs/refs/web-anim/README.md`](docs/refs/web-anim/README.md): copy still → compose parts → `shift_rect` 1–3px → `rotate_pixels` NN (±4–8°) → **mandatory 1px brush** (seams, sel-out, spec, eyelid) → `preview_onion`. Idle silhouette **must bob** (hump/chest), not FX-only. Wait for «ок» on keys. Limb-slide = copy+shift the **whole** sprite and ship **without** brush. `copy_cels` + part shift is a valid draft if brush follows. Do not `clear_cel` the whole character as the only legal path. `shift_cel` ≤1px only for idle light micro / props. Walk is not painted without «ок».
 
 - Вид: **строгий side-on**. Ближняя рука/нога чуть ниже и правее (`facing` right); дальние короче и темнее.
 - Линия **1px** на 64–128. Не масштабировать кисть через `U()` / `S()`.
-- Палитра: 2–3 тона на материал, hue-shift тени в холод, блика в тёплый; ~8–16 цветов на персонажа.
+- Палитра: 64 → 3 тона/материал; 96 → 4–5; 128 → 5–6 + spec на `fx`. Hue-shift тени в холод, блика в тёплый. На 96 ~16–28 цветов, не один hex на шкуру.
 - Контур: **sel-out**, тонированный; не обводить подошвы и хват. Не сдавать `outline_from_volume` / `add_outline` как финал.
-- Силуэт проходит чёрный тест; нужны щели (плащ/спина, оружие/голова, между ног).
+- Силуэт проходит чёрный тест; нужны щели (плащ/спина, оружие/голова, между ног). На 96 ×1: роль + 4–6 подформ.
 - На 64: рука ≤2px, нога ≤3px. Не `shade` полосой вдоль края каждого rect.
 - Не копировать игровые ассеты в `work/`. Референс: [`docs/refs/sideon.md`](docs/refs/sideon.md).
+
+Closed trial: do not continue `work/characters/demon_96` or `lua/templates/demon_96_*.lua`. Next creature starts from a new brief (`create_creature`).
 
 `create_character_rig` is a one-shot draft only.
 
