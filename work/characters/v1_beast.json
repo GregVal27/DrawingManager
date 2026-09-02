@@ -1,0 +1,18 @@
+{
+  "kind": "creature",
+  "width": 96,
+  "height": 96,
+  "facing": "right",
+  "complex": true,
+  "palette": "EDG32",
+  "pass": "paint",
+  "tags": [
+    {
+      "name": "idle",
+      "from": 1,
+      "to": 2,
+      "ms": 200,
+      "description": ""
+    }
+  ]
+}

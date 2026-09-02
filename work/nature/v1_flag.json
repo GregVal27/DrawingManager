@@ -1,0 +1,9 @@
+{
+  "kind": "prop",
+  "prop": "flag",
+  "motion": "shift",
+  "width": 48,
+  "height": 48,
+  "frames": 6,
+  "interior": false
+}

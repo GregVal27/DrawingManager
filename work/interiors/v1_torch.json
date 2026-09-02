@@ -1,0 +1,9 @@
+{
+  "kind": "prop",
+  "prop": "torch",
+  "motion": "copy",
+  "width": 24,
+  "height": 48,
+  "frames": 6,
+  "interior": false
+}

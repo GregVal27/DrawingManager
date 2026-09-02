@@ -1,0 +1,9 @@
+{
+  "kind": "prop",
+  "prop": "table",
+  "motion": "redraw",
+  "width": 48,
+  "height": 32,
+  "frames": 1,
+  "interior": true
+}

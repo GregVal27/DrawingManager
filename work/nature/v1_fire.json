@@ -1,0 +1,9 @@
+{
+  "kind": "prop",
+  "prop": "fire",
+  "motion": "redraw",
+  "width": 32,
+  "height": 48,
+  "frames": 6,
+  "interior": false
+}

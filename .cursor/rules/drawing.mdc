@@ -1,0 +1,72 @@
+---
+description: How the agent draws in Aseprite through the DrawingManager MCP bridge
+alwaysApply: true
+---
+
+# DrawingManager 1.0
+
+Cursor ↔ Aseprite bridge. Draw only through DrawingManager MCP tools (or `run_lua`). Style is **side-on** unless the user asks otherwise.
+
+Canonical plan: [`docs/PLAN.md`](docs/PLAN.md). Pixel craft (канон, RU): [`docs/PIXEL_CRAFT.md`](docs/PIXEL_CRAFT.md). Side-on refs (RU): [`docs/refs/sideon.md`](docs/refs/sideon.md).
+
+## Session brief (before drawing)
+
+Do not draw until the chat has:
+
+1. **Canvas size** (characters 64–128, default 96; tiles 16 / 32 / 64; props from the brief).
+2. **Palette**: bundle (`A64`, `EDG32`, …), `.gpl`, hex list, or palette from the user's `.aseprite` (`extract_palette` / `apply_user_palette`).
+
+## Live
+
+Product default is **live**. Call `status`. If `live_connected` is false, ask the user to run **File → Scripts → DrawingManager: Connect**, then `set_backend("live")`. Do not paint until connected.
+
+GIF export blocks the live GUI: temporarily `set_backend("headless")`, `preview_animation`, then `set_backend("live")`.
+
+Requests live in this Cursor chat, not Aseprite UI.
+
+## Two-pass creatures
+
+1. `create_creature` (empty stack + tags).
+2. `pose_skeleton` (sticks + volume). **Stop.** Wait for «ок» or pose notes.
+3. `paint_creature` (line / color / shade / fx). Hide skeleton; do not delete it.
+
+Pass 2 follows [`docs/PIXEL_CRAFT.md`](docs/PIXEL_CRAFT.md): form inventory → silhouette lock (1px, holes) → local palettes → cluster paint → form light (top-left) → sel-out → short inner lines → polish doubles/jaggies/orphans → read at 100%.
+
+- Вид: **строгий side-on**. Ближняя рука/нога чуть ниже и правее (`facing` right); дальние короче и темнее.
+- Линия **1px** на 64–128. Не масштабировать кисть через `U()` / `S()`.
+- Палитра: 2–3 тона на материал, hue-shift тени в холод, блика в тёплый; ~8–16 цветов на персонажа.
+- Контур: **sel-out**, тонированный; не обводить подошвы и хват. Не сдавать `outline_from_volume` / `add_outline` как финал.
+- Силуэт проходит чёрный тест; нужны щели (плащ/спина, оружие/голова, между ног).
+- На 64: рука ≤2px, нога ≤3px. Не `shade` полосой вдоль края каждого rect.
+- Не копировать игровые ассеты в `work/`. Референс: [`docs/refs/sideon.md`](docs/refs/sideon.md).
+
+`create_character_rig` is a one-shot draft only.
+
+Custom animations: `add_action(name, frames, description)` then pose that tag. Frame counts are free (attack may be 10 or 15).
+
+Default tags if unspecified: idle 4×200ms, walk 8×100, run 8×80, attack 6×90, jump 3×80, fall 3×100, hurt 4×100, die 6×120.
+
+## Layers (bottom to top)
+
+- Creature (simple): `skeleton` → `volume` → `line` → `color` → `shade` → `fx`
+- Creature (complex): group `skeleton` (`sk_spine`, `sk_head`, `sk_arm_f/b`, `sk_leg_f/b`) → group `volume` (`vol_*`) → group `paint` (`line`, `color`, `shade`, `fx`)
+- Prop / interior: `volume` → `line` → `color` → `shade` → `fx` (optional `skeleton` on cloth/flame). Large furniture: stop after volume.
+- Location: `sky` → `ground` (tilemap) → `nature` → `furniture` → `characters`
+
+Sidecar `*.json` next to each `.aseprite` stores tags, descriptions, motion, size.
+
+## Props
+
+`create_prop(..., motion)`: `shift` (1–2 px), `copy` (clone previous cel), `redraw` (new slides). Nature: tree, bush, grass, water, rock, cloud, fire, flag, torch, smoke. Interiors: wall, floor, door, window, table, chair, chest, bed, banner → `work/interiors/`.
+
+## Tiles
+
+`create_tileset` `tile_size` 16|32|64, themes meadow/dirt/water/dungeon/interior_wood, `autotile` blob + grass↔dirt + water↔shore. Check `preview_tileset_seams`. Location size is a multiple of tile size.
+
+## After every edit
+
+`preview_sprite` or `preview_animation` / `preview_onion`. Deliverable is `.aseprite` under `work/`, not `preview/`.
+
+## Backends
+
+Coordinates: sprite-space, origin top-left. `run_lua` is local code execution.

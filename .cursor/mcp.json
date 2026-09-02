@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "drawing-manager": {
+      "type": "stdio",
+      "command": "${workspaceFolder}/.venv/Scripts/python.exe",
+      "args": ["-u", "${workspaceFolder}/mcp/server.py"],
+      "env": {
+        "ASEPRITE_PATH": "${workspaceFolder}/Aseprite/aseprite.exe",
+        "DM_WORK_DIR": "${workspaceFolder}/work",
+        "DM_PREVIEW_DIR": "${workspaceFolder}/preview",
+        "DM_BACKEND": "live",
+        "DM_LIVE_HOST": "127.0.0.1",
+        "DM_LIVE_PORT": "8765"
+      }
+    }
+  }
+}

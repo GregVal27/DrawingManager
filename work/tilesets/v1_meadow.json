@@ -1,0 +1,6 @@
+{
+  "kind": "tileset",
+  "tile_size": 32,
+  "theme": "meadow",
+  "autotile": true
+}

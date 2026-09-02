@@ -1,0 +1,74 @@
+{
+  "kind": "creature",
+  "width": 96,
+  "height": 96,
+  "facing": "right",
+  "complex": false,
+  "palette": "EDG32",
+  "pass": "skeleton",
+  "tags": [
+    {
+      "name": "idle",
+      "from": 1,
+      "to": 4,
+      "ms": 200,
+      "description": ""
+    },
+    {
+      "name": "walk",
+      "from": 5,
+      "to": 12,
+      "ms": 100,
+      "description": ""
+    },
+    {
+      "name": "run",
+      "from": 13,
+      "to": 20,
+      "ms": 80,
+      "description": ""
+    },
+    {
+      "name": "attack",
+      "from": 21,
+      "to": 26,
+      "ms": 90,
+      "description": ""
+    },
+    {
+      "name": "jump",
+      "from": 27,
+      "to": 29,
+      "ms": 80,
+      "description": ""
+    },
+    {
+      "name": "fall",
+      "from": 30,
+      "to": 32,
+      "ms": 100,
+      "description": ""
+    },
+    {
+      "name": "hurt",
+      "from": 33,
+      "to": 36,
+      "ms": 100,
+      "description": ""
+    },
+    {
+      "name": "die",
+      "from": 37,
+      "to": 42,
+      "ms": 120,
+      "description": ""
+    },
+    {
+      "name": "balloon_die",
+      "from": 43,
+      "to": 54,
+      "ms": 90,
+      "description": "Смерть: превращение в воздушный шарик, который лопается"
+    }
+  ]
+}

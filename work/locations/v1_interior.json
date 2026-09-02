@@ -1,0 +1,8 @@
+{
+  "kind": "location",
+  "tile_size": 32,
+  "tiles_w": 8,
+  "tiles_h": 5,
+  "palette": "EDG32",
+  "theme": "interior_wood"
+}

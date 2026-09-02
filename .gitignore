@@ -1,0 +1,23 @@
+# Local Aseprite runtime (licensed binary, not project source)
+Aseprite/
+
+# Agent preview exports (not deliverables)
+preview/*
+!preview/.gitkeep
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Temp Lua generated at runtime
+.dm_tmp/

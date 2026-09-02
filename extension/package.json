@@ -1,0 +1,15 @@
+{
+  "name": "drawing-manager",
+  "displayName": "DrawingManager Live",
+  "description": "WebSocket bridge so Cursor can draw in the open Aseprite document.",
+  "version": "0.1.0",
+  "author": { "name": "DrawingManager" },
+  "publisher": "drawing-manager",
+  "license": "MIT",
+  "categories": ["Scripts"],
+  "contributes": {
+    "scripts": [
+      { "path": "./main.lua" }
+    ]
+  }
+}
