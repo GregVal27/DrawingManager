@@ -1,0 +1,77 @@
+{
+  "kind": "creature",
+  "width": 128,
+  "height": 128,
+  "facing": "right",
+  "complex": true,
+  "palette": "A64",
+  "pass": "paint",
+  "who": "hunched goblin, short sword, round shield",
+  "accent": "short sword + round shield",
+  "local_palettes": {
+    "skin": ["#ede6c8", "#9ccc47", "#509450", "#808078", "#485454", "#4c3435"],
+    "rag": ["#8385cf", "#7655a2", "#313a91"],
+    "leather": ["#cd9373", "#92562b", "#4c3435"],
+    "steel": ["#ede6c8", "#8fbfd5", "#9cabb1", "#808078", "#485454"],
+    "wood": ["#cd9373", "#92562b", "#4c3435"],
+    "mouth": ["#b14863", "#ede6c8"]
+  },
+  "tags": [
+    {
+      "name": "idle",
+      "from": 1,
+      "to": 4,
+      "ms": 200,
+      "description": "bob груди 1-3px, щит дышит, уши лаг, подошвы plant"
+    },
+    {
+      "name": "walk",
+      "from": 5,
+      "to": 12,
+      "ms": 100,
+      "description": "contact-down-passing-up, щит против шага, меч противовес"
+    },
+    {
+      "name": "run",
+      "from": 13,
+      "to": 20,
+      "ms": 80,
+      "description": "lean, кадр обе ноги в воздухе, щит прижат"
+    },
+    {
+      "name": "attack",
+      "from": 21,
+      "to": 26,
+      "ms": 90,
+      "description": "короткий замах → удар мечом (smear fx) → hold → recover"
+    },
+    {
+      "name": "jump",
+      "from": 27,
+      "to": 29,
+      "ms": 80,
+      "description": "crouch → air → щит и меч в силуэте"
+    },
+    {
+      "name": "fall",
+      "from": 30,
+      "to": 32,
+      "ms": 100,
+      "description": "корпус вниз, щит выше головы"
+    },
+    {
+      "name": "hurt",
+      "from": 33,
+      "to": 36,
+      "ms": 100,
+      "description": "extreme: щит к морде"
+    },
+    {
+      "name": "die",
+      "from": 37,
+      "to": 42,
+      "ms": 120,
+      "description": "складывается, щит рядом, меч из руки"
+    }
+  ]
+}
